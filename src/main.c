@@ -48,6 +48,7 @@ static void janus_help(const char *pname)
     " --listen-port-out\t<port>\tset the listen port for outgoing traffic\n"\
     " --pqueue-len\t\t<len>\tset tha internal packet queue length\n"\
     " --foreground\t\t\trun Janus in foreground\n"\
+    " --configuration\t\t<file>\tuse this file as configuration\n"\
     " --version\t\t\tshow Janus version\n"\
     " --help\t\t\t\tshow this help\n\n"\
     "http://www.github.com/evilaliv3/janus\n"
@@ -144,6 +145,7 @@ int main(int argc, char **argv)
         { "listen-port-out", required_argument, NULL, 'o'},
         { "pqueue-len", required_argument, NULL, 'q'},
         { "foreground", no_argument, NULL, 'f'},
+        { "configuration", required_argument, NULL, 'c'},
         { "version", no_argument, NULL, 'v'},
         { "help", no_argument, NULL, 'h'},
         { NULL, 0, NULL, 0}
@@ -158,7 +160,7 @@ int main(int argc, char **argv)
     conf.listen_port_out = CONST_JANUS_LISTEN_PORT_OUT;
     conf.pqueue_len = CONST_JANUS_PQUEUE_LEN;
 
-    while ((charopt = getopt_long(argc, argv, "l:i:o:q:vh", janus_options, NULL)) != -1)
+    while ((charopt = getopt_long(argc, argv, "l:i:o:q:vc:h", janus_options, NULL)) != -1)
     {
         switch (charopt)
         {
@@ -204,6 +206,9 @@ int main(int argc, char **argv)
         case 'f':
             foreground = 1;
             break;
+   case 'c':
+       conf.configuration_file_path = strdup(optarg);
+       break;
         case 'v':
             janus_version(argv[0]);
             return 0;

@@ -73,6 +73,7 @@ struct janus_config
     uint16_t listen_port_in;
     uint16_t listen_port_out;
     uint16_t pqueue_len;
+    char* configuration_file_path;
 };
 
 void JANUS_Bootstrap(void);

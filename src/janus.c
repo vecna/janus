@@ -368,8 +368,19 @@ static void setupKROWTEN(void)
 void JANUS_Bootstrap(void)
 {
     uint8_t i, j;
+    FILE *cfg_fp = NULL;
 
-    janus_commands_file_setup(fopen(OSSELECTED, "r"));
+    cfg_fp = fopen( conf.configuration_file_path ? conf.configuration_file_path : OSSELECTED, "r");
+    if(cfg_fp == NULL)
+    {
+        printf("unable to open configuration file: %s: %s",
+            conf.configuration_file_path ? conf.configuration_file_path : OSSELECTED,
+            strerror(errno)
+        );
+        exit(errno);
+    }
+
+    janus_commands_file_setup( cfg_fp );
 
     /* now we had the commands stored and the infos detected */
     /* execute "informative" commands (second section in the commands file) */
